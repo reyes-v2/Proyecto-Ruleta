@@ -1,7 +1,9 @@
 package dev.rmpedro.appruleta.entities;
 
 import dev.rmpedro.appruleta.enums.ApostarColor;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +13,8 @@ import java.util.Date;
 @Table(name="apuestas",schema="ruleta")
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Apuesta {
 
     @Id
@@ -28,6 +32,14 @@ public class Apuesta {
     @ManyToOne
     @JoinColumn(name = "ruleta_id",foreignKey = @ForeignKey(name = "FK_RULETA_ID"))
     private Ruleta ruleta;
+
+
+    @PrePersist
+    private void antesPersistir() {
+        this.fechaCreacion= new Date();
+
+    }
+
 
 
 }
