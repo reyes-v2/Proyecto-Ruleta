@@ -1,6 +1,6 @@
 package dev.rmpedro.appruleta.enums;
 
-public enum ApostarColor {
+public enum Color {
     ROJO,
     NEGRO,
     VERDE

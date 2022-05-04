@@ -1,6 +1,6 @@
 package dev.rmpedro.appruleta.entities;
 
-import dev.rmpedro.appruleta.enums.ApostarColor;
+import dev.rmpedro.appruleta.enums.Color;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class Apuesta {
     private Integer numero;
     @Column(name = "color")
     @Enumerated(EnumType.STRING)
-    private ApostarColor color;
+    private Color color;
     private Double monto;
     private Boolean esGanadora;
     private Double premio;

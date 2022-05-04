@@ -3,7 +3,7 @@ package dev.rmpedro.appruleta.services;
 
 import dev.rmpedro.appruleta.entities.Apuesta;
 import dev.rmpedro.appruleta.entities.Ruleta;
-import dev.rmpedro.appruleta.enums.ApostarColor;
+import dev.rmpedro.appruleta.enums.Color;
 import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
 import dev.rmpedro.appruleta.exceptions.RuletaCerradaException;
 import dev.rmpedro.appruleta.repositories.RuletaRepository;
@@ -64,7 +64,7 @@ public class RuletaDAOImpl implements RuletaDAO {
     }
 
     @Override
-    public void apostar(Integer id, ApostarColor color, Integer numero, Double monto) {
+    public void apostar(Integer id, Color color, Integer numero, Double monto) {
         Ruleta ruleta = buscarPorId(id);
         if(ruleta.getEstaAbierta()){
             Apuesta apuesta = new Apuesta();

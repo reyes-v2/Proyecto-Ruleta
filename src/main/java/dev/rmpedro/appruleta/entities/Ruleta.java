@@ -1,6 +1,6 @@
 package dev.rmpedro.appruleta.entities;
 
-import dev.rmpedro.appruleta.enums.ApostarColor;
+import dev.rmpedro.appruleta.enums.Color;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +22,7 @@ public class Ruleta {
     private Boolean estaAbierta;
     @Column(name = "color")
     @Enumerated(EnumType.STRING)
-    private ApostarColor colorGanador;
+    private Color colorGanador;
 
     private Integer numeroGanador;
     private Date fechaCreacion;
@@ -36,4 +36,13 @@ public class Ruleta {
 
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Ruleta{");
+        sb.append("id=").append(id);
+        sb.append(", estaAbierta=").append(estaAbierta);
+        sb.append(", fechaCreacion=").append(fechaCreacion);
+        sb.append('}');
+        return sb.toString();
+    }
 }

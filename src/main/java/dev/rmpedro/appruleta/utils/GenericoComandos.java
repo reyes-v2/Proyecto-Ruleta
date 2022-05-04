@@ -1,15 +1,10 @@
 package dev.rmpedro.appruleta.utils;
 
 
-import dev.rmpedro.appruleta.entities.Apuesta;
 import dev.rmpedro.appruleta.entities.Ruleta;
-import dev.rmpedro.appruleta.enums.ApostarColor;
-import dev.rmpedro.appruleta.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 
 @Component
@@ -42,12 +37,12 @@ public class GenericoComandos implements CommandLineRunner {
 			System.out.println("ruleta = " + ruleta);
 		}*/
 
-		Ruleta ruleta = ruletaDAO.buscarPorId(12);
+		/*Ruleta ruleta = ruletaDAO.buscarPorId(12);
 		ruleta.setEstaAbierta(false);
 		ruletaDAO.guardar(ruleta);
 		ruletaDAO.apostar(12, null,12,7000d);
 
-
+*/
 
 
 		

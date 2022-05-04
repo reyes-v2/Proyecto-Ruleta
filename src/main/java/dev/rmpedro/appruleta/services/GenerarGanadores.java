@@ -1,9 +1,6 @@
 package dev.rmpedro.appruleta.services;
 
-import dev.rmpedro.appruleta.entities.Ruleta;
-import dev.rmpedro.appruleta.enums.ApostarColor;
-import dev.rmpedro.appruleta.repositories.RuletaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.rmpedro.appruleta.enums.Color;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,19 +15,19 @@ public class GenerarGanadores {
 
 
     }
-    public static ApostarColor generarColorGanador(Integer numero){
-        ApostarColor color;
+    public static Color generarColorGanador(Integer numero){
+        Color color;
         List<Integer> coloresNegros = (Arrays.asList(2,4,6,8,10,11,13,15,17,20,
                 22,24,26,28,29,31,33,35));
         if(coloresNegros.contains(numero)){
-            color=ApostarColor.NEGRO;
+            color= Color.NEGRO;
 
         }
         else if(numero==0){
-            color = ApostarColor.VERDE;
+            color = Color.VERDE;
         }
         else {
-            color=ApostarColor.ROJO;
+            color= Color.ROJO;
         }
         return color;
 
