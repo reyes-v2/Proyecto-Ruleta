@@ -30,8 +30,8 @@ public class Controlador {
         return ruletaDAO.estado(id);
     }
     @GetMapping("/apostar")
-    public String apostarRuleta(Integer id, Color color,Integer numero,Double monto){
-        ruletaDAO.apostar(id,color,numero,monto);
+    public String apostarRuleta(Integer id, String color,Integer numero,Double monto){
+        ruletaDAO.apostar(id,Color.valueOf(color.toUpperCase()),numero,monto);
         return "Apuesta creada";
 
     }

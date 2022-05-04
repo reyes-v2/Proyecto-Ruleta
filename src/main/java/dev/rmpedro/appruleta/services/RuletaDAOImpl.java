@@ -112,7 +112,7 @@ public class RuletaDAOImpl implements RuletaDAO {
             aps.setEsGanadora(false);
             aps.setPremio(0d);
             if(aps.getColor()!=null){
-                if(aps.getColor()==ruleta.getColorGanador()){
+                if(aps.getColor().toString().equalsIgnoreCase(ruleta.getColorGanador().toString())){
                     aps.setEsGanadora(true);
                     aps.setPremio(aps.getMonto()*2);
                     apuestaDAO.guardar(aps);
