@@ -6,6 +6,7 @@ import dev.rmpedro.appruleta.entities.Ruleta;
 import dev.rmpedro.appruleta.enums.Color;
 import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
 import dev.rmpedro.appruleta.exceptions.RuletaCerradaException;
+import dev.rmpedro.appruleta.exceptions.RuletaNoExiste;
 import dev.rmpedro.appruleta.repositories.RuletaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class RuletaDAOImpl implements RuletaDAO {
 
     public RuletaDAOImpl(RuletaRepository repository) {
         this.repository = repository;
+
     }
 
 
@@ -44,31 +46,35 @@ public class RuletaDAOImpl implements RuletaDAO {
             ruleta=buscarRuleta.get();
 
         }
+        else{
+            throw new RuletaNoExiste("La ruleta con el ID " + id + " no existe.");
+        }
         return ruleta;
     }
 
     @Override
     public Integer crear() {
         Ruleta ruleta = new Ruleta();
-        ruleta.setEstaAbierta(true);
         guardar(ruleta);
         return ruleta.getId();
 
     }
 
     @Override
-    public Boolean estado(Integer id) {
+    public Boolean apertura(Integer id) {
     Ruleta ruleta = buscarPorId(id);
+    ruleta.setEstaAbierta(true);
+    guardar(ruleta);
     return ruleta.getEstaAbierta();
 
     }
 
     @Override
-    public void apostar(Integer id, Color color, Integer numero, Double monto) {
-        Ruleta ruleta = buscarPorId(id);
+    public void apostar(Integer idRuleta, String color, Integer numero, Double monto) {
+        Ruleta ruleta = buscarPorId(idRuleta);
         if(ruleta.getEstaAbierta()){
             Apuesta apuesta = new Apuesta();
-            apuesta.setColor(color);
+            apuesta.setColor(Color.valueOf(color.toUpperCase()));
             apuesta.setNumero(numero);
             apuesta.setMonto(monto);
 
@@ -99,44 +105,16 @@ public class RuletaDAOImpl implements RuletaDAO {
     @Override
     public Iterable<Apuesta> cierre(Integer id) {
         Ruleta ruleta = buscarPorId(id);
-
-        List<Apuesta> apuestas = (List<Apuesta>) apuestaDAO.buscarApuestas(id);
-        if(apuestas.isEmpty()){
-            throw new ApuestasNoRealizadas("No hay apuestas para calcular");
-
-        }
-        else{
-            ruleta.setEstaAbierta(false);
-            guardar(ruleta);
-        for(Apuesta aps : apuestas){
-            aps.setEsGanadora(false);
-            aps.setPremio(0d);
-            if(aps.getColor()!=null){
-                if(aps.getColor().toString().equalsIgnoreCase(ruleta.getColorGanador().toString())){
-                    aps.setEsGanadora(true);
-                    aps.setPremio(aps.getMonto()*2);
-                    apuestaDAO.guardar(aps);
-                }
-            }
-            else{
-                if(aps.getNumero()== ruleta.getNumeroGanador()){
-                    aps.setEsGanadora(true);
-                    aps.setPremio(aps.getMonto()*36);
-                    apuestaDAO.guardar(aps);
-
-                }
-
-            }
-        }}
+        girar(id);
+        Iterable<Apuesta> apuestas = apuestaDAO.calcularResultados(ruleta);
+        guardar(ruleta);
         return apuestas;
-
-
 
     }
 
     @Override
     public Iterable<Ruleta> buscarTodos() {
-        return repository.findAll();
+        return repository.buscar();
     }
 
     @Override

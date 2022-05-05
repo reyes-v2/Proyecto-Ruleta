@@ -1,5 +1,6 @@
 package dev.rmpedro.appruleta.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.rmpedro.appruleta.enums.Color;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,11 +26,12 @@ public class Apuesta {
     @Enumerated(EnumType.STRING)
     private Color color;
     private Double monto;
-    private Boolean esGanadora;
-    private Double premio;
+    private Boolean esGanadora=false;
+    private Double premio =0d;
     private Date fechaCreacion;
 
     @ManyToOne
+    @JsonIgnoreProperties({"apuestasRealizadas"})
     @JoinColumn(name = "ruleta_id",foreignKey = @ForeignKey(name = "FK_RULETA_ID"))
     private Ruleta ruleta;
 

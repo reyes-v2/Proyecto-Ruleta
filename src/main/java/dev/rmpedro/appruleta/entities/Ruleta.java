@@ -1,5 +1,6 @@
 package dev.rmpedro.appruleta.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.rmpedro.appruleta.enums.Color;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class Ruleta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Boolean estaAbierta;
+    private Boolean estaAbierta=false;
     @Column(name = "color")
     @Enumerated(EnumType.STRING)
     private Color colorGanador;
@@ -28,6 +29,7 @@ public class Ruleta {
     private Date fechaCreacion;
 
     @OneToMany(mappedBy = "ruleta",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"ruleta"})
     private List<Apuesta> apuestasRealizadas;
 
     @PrePersist

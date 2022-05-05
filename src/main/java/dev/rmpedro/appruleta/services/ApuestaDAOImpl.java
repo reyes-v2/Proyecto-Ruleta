@@ -1,7 +1,10 @@
 package dev.rmpedro.appruleta.services;
 
 import dev.rmpedro.appruleta.entities.Apuesta;
+import dev.rmpedro.appruleta.entities.Ruleta;
+import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
 import dev.rmpedro.appruleta.repositories.ApuestaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,7 @@ public class ApuestaDAOImpl implements ApuestaDAO{
 
         public ApuestaDAOImpl(ApuestaRepository repository) {
                 this.repository = repository;
+
         }
 
 
@@ -34,6 +38,37 @@ public class ApuestaDAOImpl implements ApuestaDAO{
 
         @Override
         public void eliminarPorId(Integer id) {
+
+        }
+
+        @Override
+        public Iterable<Apuesta> calcularResultados(Ruleta ruleta) {
+                //Ruleta ruleta = ruletaDAO.buscarPorId(id);
+                List<Apuesta> apuestas = (List<Apuesta>) buscarApuestas(ruleta.getId());
+                if (apuestas.isEmpty()) {
+                        throw new ApuestasNoRealizadas("No hay apuestas para calcular");
+
+                } else {
+                        ruleta.setEstaAbierta(false);
+                        for (Apuesta apuesta : apuestas) {
+                                if (apuesta.getColor() != null) {
+                                        if (apuesta.getColor() == ruleta.getColorGanador()) {
+                                                apuesta.setEsGanadora(true);
+                                                apuesta.setPremio(apuesta.getMonto() * 2);
+                                                guardar(apuesta);
+                                        }
+                                } else {
+                                        if (apuesta.getNumero() == ruleta.getNumeroGanador()) {
+                                                apuesta.setEsGanadora(true);
+                                                apuesta.setPremio(apuesta.getMonto() * 36);
+                                                guardar(apuesta);
+
+                                        }
+
+                                }
+                        }
+                }
+                return apuestas;
 
         }
 }

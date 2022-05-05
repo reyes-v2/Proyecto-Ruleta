@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RuletaRepository  extends CrudRepository<Ruleta, Integer> {
-    @Query(value = "select ruleta.ruletas.id,ruleta.ruletas.esta_Abierta from ruleta.ruletas", nativeQuery = true)
-    public Iterable<Ruleta> buscarTodos();
+
+    @Query("select r.id, r.estaAbierta from Ruleta r")
+    Iterable<Ruleta> buscar();
+
 
 }

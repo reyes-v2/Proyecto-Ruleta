@@ -12,5 +12,6 @@ public interface ApuestaDAO{
     Apuesta guardar(Apuesta entidad);
     Iterable<Apuesta> buscarApuestas(Integer id);
     void eliminarPorId(Integer id);
+    Iterable<Apuesta> calcularResultados(Ruleta ruleta);
 
 }
