@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RuletaRepository  extends CrudRepository<Ruleta, Integer> {
-
     @Query("select r.id, r.estaAbierta from Ruleta r")
     Iterable<Ruleta> buscar();
 

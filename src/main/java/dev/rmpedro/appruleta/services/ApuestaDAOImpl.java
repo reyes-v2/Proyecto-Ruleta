@@ -2,6 +2,7 @@ package dev.rmpedro.appruleta.services;
 
 import dev.rmpedro.appruleta.entities.Apuesta;
 import dev.rmpedro.appruleta.entities.Ruleta;
+import dev.rmpedro.appruleta.enums.Color;
 import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
 import dev.rmpedro.appruleta.repositories.ApuestaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,23 @@ public class ApuestaDAOImpl implements ApuestaDAO{
                 }
                 return apuestas;
 
+        }
+
+        @Override
+        public void crearApuesta(String color, Double monto,Ruleta ruleta) {
+                Apuesta apuesta = new Apuesta();
+                apuesta.setColor(Color.valueOf(color.toUpperCase()));
+                apuesta.setMonto(monto);
+               apuesta.setRuleta(ruleta);
+               guardar(apuesta);
+        }
+
+        @Override
+        public void crearApuesta(Integer numero, Double monto,Ruleta ruleta) {
+                Apuesta apuesta = new Apuesta();
+                apuesta.setNumero(numero);
+                apuesta.setMonto(monto);
+                apuesta.setRuleta(ruleta);
+                guardar(apuesta);
         }
 }

@@ -9,7 +9,8 @@ public interface RuletaDAO{
     Ruleta buscarPorId(Integer id);
     Integer crear();
     Boolean apertura(Integer id);
-    void apostar(Integer id, String color, Integer numero, Double monto);
+    void apostar(Integer id, Integer numero, Double monto);
+    void apostar(Integer id, String color, Double monto);
     void girar(Integer id);
     Iterable<Apuesta> cierre(Integer id);
     Iterable<Ruleta> buscarTodos();

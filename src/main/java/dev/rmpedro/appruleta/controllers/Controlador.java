@@ -2,9 +2,10 @@ package dev.rmpedro.appruleta.controllers;
 
 import dev.rmpedro.appruleta.entities.Apuesta;
 import dev.rmpedro.appruleta.entities.Ruleta;
-import dev.rmpedro.appruleta.enums.Color;
 import dev.rmpedro.appruleta.services.RuletaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,33 +18,40 @@ public class Controlador {
 
 
     @PostMapping ("/crear")
-    public Integer crearRuleta(){
+    public ResponseEntity<Integer> crearRuleta(){
 
-        return ruletaDAO.crear();
+        return new ResponseEntity<>(ruletaDAO.crear(), HttpStatus.CREATED);
     }
 
     @PutMapping("/abrir")
-    public Boolean abrirrRuleta(Integer id){
+    public ResponseEntity<Boolean> abrirrRuleta(Integer id){
 
-        return ruletaDAO.apertura(id);
+        return new ResponseEntity<>(ruletaDAO.apertura(id),HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/apostar")
-    public String apostarRuleta(Integer id, String color,Integer numero,Double monto){
-        ruletaDAO.apostar(id,color,numero,monto);
-        return "Apuesta creada";
+    @PostMapping("/apostarnumero")
+    public ResponseEntity<String> apostarRuleta(Integer id,Integer numero,Double monto){
+        ruletaDAO.apostar(id,numero,monto);
+        return new ResponseEntity<>("Apuesta creada",HttpStatus.ACCEPTED);
+
+    }
+    @PostMapping("/apostarcolor")
+    public ResponseEntity<String> apostarRuleta(Integer id, String color,Double monto){
+        ruletaDAO.apostar(id,color,monto);
+        return new ResponseEntity<>("Apuesta creada",HttpStatus.ACCEPTED);
 
     }
 
     @GetMapping("/cierreapuestas")
-    public Iterable<Apuesta> cierreApuestas(Integer id){
+    public ResponseEntity<Iterable<Apuesta>> cierreApuestas(Integer id){
 
-        return ruletaDAO.cierre(id);
+        return new ResponseEntity<>(ruletaDAO.cierre(id),HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/listar")
-    public Iterable<Ruleta> listarRuletas(){
-        return ruletaDAO.buscarTodos();
+    public ResponseEntity<Iterable<Ruleta>> listarRuletas(){
+
+        return new ResponseEntity<>(ruletaDAO.buscarTodos(),HttpStatus.ACCEPTED);
     }
 
 

@@ -4,17 +4,17 @@ package dev.rmpedro.appruleta.services;
 import dev.rmpedro.appruleta.entities.Apuesta;
 import dev.rmpedro.appruleta.entities.Ruleta;
 import dev.rmpedro.appruleta.enums.Color;
-import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
+import dev.rmpedro.appruleta.exceptions.DatosApuestaNoValidos;
 import dev.rmpedro.appruleta.exceptions.RuletaCerradaException;
 import dev.rmpedro.appruleta.exceptions.RuletaNoExiste;
 import dev.rmpedro.appruleta.repositories.RuletaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 import static dev.rmpedro.appruleta.services.GenerarGanadores.*;
+import static dev.rmpedro.appruleta.validaciones.ValidarDatos.*;
 
 
 @Service
@@ -70,16 +70,33 @@ public class RuletaDAOImpl implements RuletaDAO {
     }
 
     @Override
-    public void apostar(Integer idRuleta, String color, Integer numero, Double monto) {
+    public void apostar(Integer idRuleta, String color, Double monto) {
+        if(!validarColorApuesta(color,monto))
+            throw new DatosApuestaNoValidos("El color de la apuesta debe ser rojo o negro Y" +
+                    " el monto maximo para la apuesta es 10000");
+
         Ruleta ruleta = buscarPorId(idRuleta);
         if(ruleta.getEstaAbierta()){
-            Apuesta apuesta = new Apuesta();
-            apuesta.setColor(Color.valueOf(color.toUpperCase()));
-            apuesta.setNumero(numero);
-            apuesta.setMonto(monto);
+          apuestaDAO.crearApuesta(color,monto,ruleta);
 
-            apuesta.setRuleta(ruleta);
-            apuestaDAO.guardar(apuesta);
+        }
+        else{
+            throw new RuletaCerradaException("No es posibles apostar a esta ruleta");
+        }
+
+
+
+    }
+    @Override
+    public void apostar(Integer idRuleta, Integer numero, Double monto) {
+        if(!validarNumeroApuesta(numero,monto))
+            throw new DatosApuestaNoValidos(
+                    "El numero de la apuesta debe ser del 0-36" +
+                    "Y el monto maximo para la apuesta es 10000");
+
+        Ruleta ruleta = buscarPorId(idRuleta);
+        if(ruleta.getEstaAbierta()){
+        apuestaDAO.crearApuesta(numero,monto,ruleta);
 
         }
         else{
@@ -105,6 +122,7 @@ public class RuletaDAOImpl implements RuletaDAO {
     @Override
     public Iterable<Apuesta> cierre(Integer id) {
         Ruleta ruleta = buscarPorId(id);
+
         girar(id);
         Iterable<Apuesta> apuestas = apuestaDAO.calcularResultados(ruleta);
         guardar(ruleta);
