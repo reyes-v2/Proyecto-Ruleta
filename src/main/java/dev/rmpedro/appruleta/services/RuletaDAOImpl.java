@@ -3,7 +3,6 @@ package dev.rmpedro.appruleta.services;
 
 import dev.rmpedro.appruleta.entities.Apuesta;
 import dev.rmpedro.appruleta.entities.Ruleta;
-import dev.rmpedro.appruleta.enums.Color;
 import dev.rmpedro.appruleta.exceptions.DatosApuestaNoValidos;
 import dev.rmpedro.appruleta.exceptions.RuletaCerradaException;
 import dev.rmpedro.appruleta.exceptions.RuletaNoExiste;
@@ -13,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static dev.rmpedro.appruleta.services.GenerarGanadores.*;
-import static dev.rmpedro.appruleta.validaciones.ValidarDatos.*;
+import static dev.rmpedro.appruleta.services.GenerarGanadores.generarColorGanador;
+import static dev.rmpedro.appruleta.services.GenerarGanadores.generarNumeroGanador;
+import static dev.rmpedro.appruleta.validaciones.ValidarDatos.validarColorApuesta;
+import static dev.rmpedro.appruleta.validaciones.ValidarDatos.validarNumeroApuesta;
 
 
 @Service
@@ -135,9 +136,5 @@ public class RuletaDAOImpl implements RuletaDAO {
         return repository.buscar();
     }
 
-    @Override
-    public void eliminarPorId(Integer id) {
-        repository.deleteById(id);
 
-    }
 }

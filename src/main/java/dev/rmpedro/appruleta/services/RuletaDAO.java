@@ -14,7 +14,6 @@ public interface RuletaDAO{
     void girar(Integer id);
     Iterable<Apuesta> cierre(Integer id);
     Iterable<Ruleta> buscarTodos();
-    void eliminarPorId(Integer id);
 
 
 }

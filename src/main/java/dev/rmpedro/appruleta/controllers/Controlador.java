@@ -8,6 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+/*TODO:
+* Hacer que el controlador solo reciba un valor de apuesta en String y castear Integers
+* Documentacion y comentarios
+* Administrar excepciones
+* Trabajar en algoritmo generar color y numero ganador
+* Trabajar el algoritmo calcular apuestas
+* JSON ignore properties
+*
+* */
+
+
 @RestController
 @RequestMapping("api/v1/ruleta")
 public class Controlador {

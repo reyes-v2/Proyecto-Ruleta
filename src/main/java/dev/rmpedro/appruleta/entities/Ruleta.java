@@ -38,13 +38,5 @@ public class Ruleta {
 
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Ruleta{");
-        sb.append("id=").append(id);
-        sb.append(", estaAbierta=").append(estaAbierta);
-        sb.append(", fechaCreacion=").append(fechaCreacion);
-        sb.append('}');
-        return sb.toString();
-    }
+
 }

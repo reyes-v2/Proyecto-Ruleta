@@ -5,7 +5,6 @@ import dev.rmpedro.appruleta.entities.Ruleta;
 import dev.rmpedro.appruleta.enums.Color;
 import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
 import dev.rmpedro.appruleta.repositories.ApuestaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +27,8 @@ public class ApuestaDAOImpl implements ApuestaDAO{
         }
 
         @Override
-        public Apuesta guardar(Apuesta entidad) {
-                return repository.save(entidad);
+        public void guardar(Apuesta entidad) {
+                repository.save(entidad);
         }
 
         @Override
@@ -37,10 +36,7 @@ public class ApuestaDAOImpl implements ApuestaDAO{
                 return repository.buscar(id);
         }
 
-        @Override
-        public void eliminarPorId(Integer id) {
 
-        }
 
         @Override
         public Iterable<Apuesta> calcularResultados(Ruleta ruleta) {
