@@ -1,7 +1,8 @@
 package dev.rmpedro.appruleta.utils;
 
 
-import dev.rmpedro.appruleta.entities.Ruleta;
+import dev.rmpedro.appruleta.services.ApuestaDAO;
+import dev.rmpedro.appruleta.services.RuletaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,9 +12,9 @@ import org.springframework.stereotype.Component;
 public class GenericoComandos implements CommandLineRunner {
 
 	@Autowired
-	private dev.rmpedro.appruleta.services.RuletaDAO ruletaDAO;
+	private RuletaDAO ruletaDAO;
 	@Autowired
-	private dev.rmpedro.appruleta.services.ApuestaDAO apuestaDAO;
+	private ApuestaDAO apuestaDAO;
 	@Override
 	public void run(String... args) throws Exception {
 

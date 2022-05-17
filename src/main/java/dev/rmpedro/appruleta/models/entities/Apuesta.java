@@ -1,7 +1,7 @@
-package dev.rmpedro.appruleta.entities;
+package dev.rmpedro.appruleta.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dev.rmpedro.appruleta.enums.Color;
+import dev.rmpedro.appruleta.enums.TipoApuesta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +21,11 @@ public class Apuesta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer numero;
-    @Column(name = "color")
+    @Column(name = "valor_apuesta")
+    private String valorApuesta;
+    @Column(name = "tipo_apuesta")
     @Enumerated(EnumType.STRING)
-    private Color color;
+    private TipoApuesta tipoApuesta;
     private Double monto;
     private Boolean esGanadora=false;
     private Double premio =0d;
@@ -42,6 +43,10 @@ public class Apuesta {
 
     }
 
-
-
+    public Apuesta(String valorApuesta, TipoApuesta tipoApuesta, Double monto, Ruleta ruleta) {
+        this.valorApuesta = valorApuesta;
+        this.tipoApuesta = tipoApuesta;
+        this.monto = monto;
+        this.ruleta = ruleta;
+    }
 }

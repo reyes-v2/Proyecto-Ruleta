@@ -1,19 +1,18 @@
 package dev.rmpedro.appruleta.services;
 
-import dev.rmpedro.appruleta.entities.Apuesta;
-import dev.rmpedro.appruleta.entities.Ruleta;
-
-import java.util.Optional;
+import dev.rmpedro.appruleta.models.entities.Apuesta;
+import dev.rmpedro.appruleta.models.entities.Ruleta;
 
 public interface ApuestaDAO{
 
 
-    Optional<Apuesta> buscarPorId(Integer id);
-    void guardar(Apuesta entidad);
-    Iterable<Apuesta> buscarApuestas(Integer id);
+    Apuesta guardar(Apuesta entidad);
+
+    Iterable<Apuesta> buscarApuestasPorRuletaId(Integer id);
+
+    Apuesta crearApuesta(String valorApuesta, Double monto, Ruleta ruleta);
+
     Iterable<Apuesta> calcularResultados(Ruleta ruleta);
-    void crearApuesta(String color, Double monto,Ruleta ruleta);
-    void crearApuesta(Integer numero, Double monto,Ruleta ruleta);
 
 
 }

@@ -2,14 +2,13 @@ package dev.rmpedro.appruleta.validaciones;
 
 public class ValidarDatos {
 
-    public static Boolean validarNumeroApuesta(Integer numero,Double monto){
-        return (numero >= 0 && numero <= 36) && validarMontoApuesta(monto);
+    public static Boolean validarNumeroApuesta(Integer numero){
+        return numero >= 0 && numero <= 36 ;
 
     }
-    public static Boolean validarColorApuesta(String color,Double monto){
+    public static Boolean validarColorApuesta(String color){
         return (color.equalsIgnoreCase("rojo" ) ||
-                color.equalsIgnoreCase("negro") ) &&
-                validarMontoApuesta(monto);
+                color.equalsIgnoreCase("negro") ) ;
 
     }
     public static Boolean validarMontoApuesta(Double monto){

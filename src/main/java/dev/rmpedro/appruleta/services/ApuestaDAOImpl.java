@@ -1,89 +1,78 @@
 package dev.rmpedro.appruleta.services;
 
-import dev.rmpedro.appruleta.entities.Apuesta;
-import dev.rmpedro.appruleta.entities.Ruleta;
-import dev.rmpedro.appruleta.enums.Color;
+import dev.rmpedro.appruleta.models.entities.Apuesta;
+import dev.rmpedro.appruleta.models.entities.Ruleta;
+import dev.rmpedro.appruleta.enums.TipoApuesta;
 import dev.rmpedro.appruleta.exceptions.ApuestasNoRealizadas;
+import dev.rmpedro.appruleta.exceptions.DatosApuestaNoValidos;
 import dev.rmpedro.appruleta.repositories.ApuestaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
+import static dev.rmpedro.appruleta.validaciones.ValidarDatos.*;
+import static dev.rmpedro.appruleta.services.CalcularApuesta.calcularApuesta;
 
 @Service
 public class ApuestaDAOImpl implements ApuestaDAO{
 
-        protected final ApuestaRepository repository;
 
-        public ApuestaDAOImpl(ApuestaRepository repository) {
-                this.repository = repository;
+        @Autowired
+        private ApuestaRepository repository;
 
+
+        @Override
+        public Apuesta guardar(Apuesta entidad) {
+
+            return repository.save(entidad);
+        }
+
+        @Override
+        public Iterable<Apuesta> buscarApuestasPorRuletaId(Integer id) {
+
+            return repository.buscarPorRuletaId(id);
         }
 
 
         @Override
-        public Optional<Apuesta> buscarPorId(Integer id) {
-                return Optional.empty();
+        public Apuesta crearApuesta(String valorApuesta, Double monto, Ruleta ruleta) {
+                Apuesta apuestaGuardada;
+                if(validarColorApuesta(valorApuesta) && validarMontoApuesta(monto)){
+                   Apuesta nuevaApuesta = new Apuesta(valorApuesta.toUpperCase(),TipoApuesta.COLOR,monto,ruleta);
+                    apuestaGuardada =guardar(nuevaApuesta);
+                }else {
+                        try{
+                            Integer numeroApuesta = Integer.parseInt(valorApuesta);
+                            if(validarNumeroApuesta(numeroApuesta) && validarMontoApuesta(monto)){
+                                Apuesta nuevaApuesta = new Apuesta(valorApuesta,TipoApuesta.NUMERO,monto,ruleta);
+                                apuestaGuardada = guardar(nuevaApuesta);
+                            }
+                            else{
+                                throw new DatosApuestaNoValidos("No es posible apostar a este valor");
+                            }
+
+                        }catch (NumberFormatException e){
+                            throw new DatosApuestaNoValidos("No es posible apostar a este valor");
+                        }
+                }
+                return apuestaGuardada;
         }
-
-        @Override
-        public void guardar(Apuesta entidad) {
-                repository.save(entidad);
-        }
-
-        @Override
-        public Iterable<Apuesta> buscarApuestas(Integer id) {
-                return repository.buscar(id);
-        }
-
-
 
         @Override
         public Iterable<Apuesta> calcularResultados(Ruleta ruleta) {
-                //Ruleta ruleta = ruletaDAO.buscarPorId(id);
-                List<Apuesta> apuestas = (List<Apuesta>) buscarApuestas(ruleta.getId());
+
+                List<Apuesta> apuestas = (List<Apuesta>) buscarApuestasPorRuletaId(ruleta.getId());
                 if (apuestas.isEmpty()) {
                         throw new ApuestasNoRealizadas("No hay apuestas para calcular");
 
                 } else {
                         ruleta.setEstaAbierta(false);
-                        for (Apuesta apuesta : apuestas) {
-                                if (apuesta.getColor() != null) {
-                                        if (apuesta.getColor() == ruleta.getColorGanador()) {
-                                                apuesta.setEsGanadora(true);
-                                                apuesta.setPremio(apuesta.getMonto() * 2);
-                                                guardar(apuesta);
-                                        }
-                                } else {
-                                        if (apuesta.getNumero() == ruleta.getNumeroGanador()) {
-                                                apuesta.setEsGanadora(true);
-                                                apuesta.setPremio(apuesta.getMonto() * 36);
-                                                guardar(apuesta);
-
-                                        }
-
-                                }
-                        }
+                    apuestas.forEach(apuesta -> guardar(calcularApuesta(ruleta,apuesta)));
                 }
                 return apuestas;
 
         }
 
-        @Override
-        public void crearApuesta(String color, Double monto,Ruleta ruleta) {
-                Apuesta apuesta = new Apuesta();
-                apuesta.setColor(Color.valueOf(color.toUpperCase()));
-                apuesta.setMonto(monto);
-               apuesta.setRuleta(ruleta);
-               guardar(apuesta);
-        }
 
-        @Override
-        public void crearApuesta(Integer numero, Double monto,Ruleta ruleta) {
-                Apuesta apuesta = new Apuesta();
-                apuesta.setNumero(numero);
-                apuesta.setMonto(monto);
-                apuesta.setRuleta(ruleta);
-                guardar(apuesta);
-        }
 }

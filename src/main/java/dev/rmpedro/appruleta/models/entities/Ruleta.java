@@ -1,4 +1,4 @@
-package dev.rmpedro.appruleta.entities;
+package dev.rmpedro.appruleta.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.rmpedro.appruleta.enums.Color;
@@ -21,10 +21,9 @@ public class Ruleta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Boolean estaAbierta=false;
-    @Column(name = "color")
+    @Column(name = "color_ganador")
     @Enumerated(EnumType.STRING)
     private Color colorGanador;
-
     private Integer numeroGanador;
     private Date fechaCreacion;
 
