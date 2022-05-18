@@ -21,8 +21,14 @@ public class RuletaDAOImpl implements RuletaDAO {
    @Autowired
     ApuestaDAO apuestaDAO;
 
-   @Autowired
-    private RuletaRepository repository;
+
+    private final RuletaRepository repository;
+
+    @Autowired
+    public RuletaDAOImpl(RuletaRepository repository) {
+        this.repository = repository;
+    }
+
 
 
     @Override

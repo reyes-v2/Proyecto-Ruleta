@@ -2,6 +2,7 @@ package dev.rmpedro.appruleta.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.rmpedro.appruleta.enums.Color;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +13,12 @@ import java.util.List;
 
 
 @Entity
-@Table(name="ruletas", schema = "ruleta")
+//@Table(name="ruletas", schema = "ruleta")
+@Table(name = "ruletas")
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Ruleta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +40,8 @@ public class Ruleta {
 
     }
 
-
+    public Ruleta(Integer id, Boolean estaAbierta) {
+        this.id = id;
+        this.estaAbierta = estaAbierta;
+    }
 }

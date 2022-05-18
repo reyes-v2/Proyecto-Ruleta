@@ -1,6 +1,8 @@
 package dev.rmpedro.appruleta.controllers;
 
+import dev.rmpedro.appruleta.mapper.MapperApuesta;
 import dev.rmpedro.appruleta.mapper.MapperRuleta;
+import dev.rmpedro.appruleta.models.dto.ApuestaDTO;
 import dev.rmpedro.appruleta.models.dto.RuletaDTO;
 import dev.rmpedro.appruleta.models.entities.Apuesta;
 import dev.rmpedro.appruleta.models.entities.Ruleta;
@@ -34,6 +36,7 @@ public class ControladorRuleta {
     RuletaDAO ruletaDAO;
 
     //Endpoint 1
+
     @PostMapping ("/crear")
     public ResponseEntity<Integer> crearRuleta(){
 
@@ -51,7 +54,8 @@ public class ControladorRuleta {
     @PostMapping("/apostar")
     public ResponseEntity<?> apostarRuleta(Integer id, String valorApuesta, Double monto){
         Apuesta nuevaApuesta=ruletaDAO.apostar(id,valorApuesta,monto);
-        return new ResponseEntity<>(nuevaApuesta,HttpStatus.ACCEPTED);
+        ApuestaDTO apuestaDTO= MapperApuesta.mapApuesta(nuevaApuesta);
+        return new ResponseEntity<>(apuestaDTO,HttpStatus.ACCEPTED);
 
     }
 
@@ -64,7 +68,7 @@ public class ControladorRuleta {
 
 
     //Endpoint 5
-    @GetMapping(value = "/listar")
+    @GetMapping( "/listar")
     public ResponseEntity<?> listarRuletas(){
         List<Ruleta> ruletas = (List<Ruleta>) ruletaDAO.buscarTodos();
         List<RuletaDTO> ruletasDto = ruletas.

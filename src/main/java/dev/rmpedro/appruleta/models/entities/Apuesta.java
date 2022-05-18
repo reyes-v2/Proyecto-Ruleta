@@ -11,7 +11,8 @@ import java.util.Date;
 
 
 @Entity
-@Table(name="apuestas",schema="ruleta")
+//@Table(name="apuestas",schema="ruleta")
+@Table(name = "apuestas")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -48,5 +49,12 @@ public class Apuesta {
         this.tipoApuesta = tipoApuesta;
         this.monto = monto;
         this.ruleta = ruleta;
+    }
+
+    public Apuesta(Integer id, String valorApuesta, TipoApuesta tipoApuesta, Double monto) {
+        this.id = id;
+        this.valorApuesta = valorApuesta;
+        this.tipoApuesta = tipoApuesta;
+        this.monto = monto;
     }
 }

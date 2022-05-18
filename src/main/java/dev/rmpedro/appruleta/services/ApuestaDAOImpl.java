@@ -18,11 +18,15 @@ import static dev.rmpedro.appruleta.services.CalcularApuesta.calcularApuesta;
 public class ApuestaDAOImpl implements ApuestaDAO{
 
 
-        @Autowired
-        private ApuestaRepository repository;
+    private final ApuestaRepository repository;
+
+    @Autowired
+    public ApuestaDAOImpl(ApuestaRepository repository) {
+        this.repository = repository;
+    }
 
 
-        @Override
+    @Override
         public Apuesta guardar(Apuesta entidad) {
 
             return repository.save(entidad);
@@ -31,7 +35,7 @@ public class ApuestaDAOImpl implements ApuestaDAO{
         @Override
         public Iterable<Apuesta> buscarApuestasPorRuletaId(Integer id) {
 
-            return repository.buscarPorRuletaId(id);
+            return repository.buscarApuestasPorRuletaId(id);
         }
 
 
