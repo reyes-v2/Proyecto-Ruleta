@@ -1,8 +1,5 @@
 package dev.rmpedro.appruleta.controllers;
 
-import dev.rmpedro.appruleta.exceptions.DatosApuestaNoValidos;
-import dev.rmpedro.appruleta.exceptions.RuletaCerradaException;
-import dev.rmpedro.appruleta.exceptions.RuletaNoExiste;
 import dev.rmpedro.appruleta.mapper.MapperApuesta;
 import dev.rmpedro.appruleta.mapper.MapperRuleta;
 import dev.rmpedro.appruleta.models.dto.ApuestaDTO;
@@ -26,16 +23,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-/*TODO:
- * Hacer que el controlador solo reciba un valor de apuesta en String y castear Integers
- * Documentacion y comentarios
- * Administrar excepciones
- * Trabajar en algoritmo generar color y numero ganador
- * Trabajar el algoritmo calcular apuestas
- * JSON ignore properties
- *Investigar notacion para parametros en endpoints
- * DTO
- * */
 
 
 @RestController

@@ -2,7 +2,6 @@ package dev.rmpedro.appruleta.controllers;
 
 import dev.rmpedro.appruleta.datos.ApuestaDatosDummy;
 import dev.rmpedro.appruleta.datos.RuletaDatosDummy;
-import dev.rmpedro.appruleta.models.entities.Ruleta;
 import dev.rmpedro.appruleta.services.RuletaDAO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
