@@ -11,8 +11,8 @@ import java.util.Date;
 
 
 @Entity
-//@Table(name="apuestas",schema="ruleta")
-@Table(name = "apuestas")
+@Table(name="apuestas",schema="ruleta")
+//@Table(name = "apuestas")
 @Setter
 @Getter
 @NoArgsConstructor

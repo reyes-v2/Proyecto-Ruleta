@@ -13,8 +13,8 @@ import java.util.List;
 
 
 @Entity
-//@Table(name="ruletas", schema = "ruleta")
-@Table(name = "ruletas")
+@Table(name="ruletas", schema = "ruleta")
+//@Table(name = "ruletas")
 @Setter
 @Getter
 @NoArgsConstructor
