@@ -43,12 +43,13 @@ class ControladorRuletaTest {
     }
 
     @Test
-    @DisplayName("Abre la ruleta y retorna un valor 'true' y un estado 'Accepted'")
+    @DisplayName("Abre la ruleta y retorna un mensaje de confirmacion")
     void abrirRuleta() throws Exception{
         when(ruletaDAO.apertura(1))
-                .thenReturn(true);
-        mockMvc.perform(put("/api/v1/ruleta/abrir/?id=1").accept(MediaType.APPLICATION_JSON)
-                .content(RuletaDatosDummy.ruletaEstadoJson01())).andExpect(status().isAccepted());
+                .thenReturn("La ruleta esta disponible para apuestas");
+        mockMvc.perform(put("/api/v1/ruleta/abrir/?ruletaId=1").accept(MediaType.APPLICATION_JSON)
+                        .content(RuletaDatosDummy.ruletaEstadoJson01()))
+                .andExpect(status().isAccepted());
         verify(ruletaDAO).apertura(1);
 
 
@@ -59,7 +60,7 @@ class ControladorRuletaTest {
     @DisplayName("Retorna la apuesta creada y un estado 'Acepted'")
     void apostarRuleta() throws Exception{
         when(ruletaDAO.apostar(1,"negro",8000d)).thenReturn(ApuestaDatosDummy.apuesta01());
-        mockMvc.perform(post("/api/v1/ruleta/apostar/?id=1&valorApuesta=negro&monto=8000")
+        mockMvc.perform(post("/api/v1/ruleta/apostar/?idRuleta=1&valorApuesta=negro&montoApuesta=8000")
                 .accept(MediaType.APPLICATION_JSON).content(ApuestaDatosDummy.apuesta01Json()))
                 .andExpect(status().isAccepted());
 
@@ -80,7 +81,7 @@ class ControladorRuletaTest {
     @DisplayName("Retorna una lista de apuestas calculas y un estado 'Accepted'")
     void cierreApuestas() throws Exception{
         when(ruletaDAO.cierre(2)).thenReturn(List.of(ApuestaDatosDummy.apuesta04()));
-        mockMvc.perform(get("/api/v1/ruleta/cierreapuestas/?id=2").accept(MediaType.APPLICATION_JSON)
+        mockMvc.perform(get("/api/v1/ruleta/cerrar?ruletaId=2").accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isAccepted());
         verify(ruletaDAO).cierre(2);
 

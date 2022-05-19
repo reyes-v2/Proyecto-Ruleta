@@ -53,14 +53,14 @@ public class ControladorRuleta {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "La ruleta permite nuevas apuestas",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Boolean.class))}),
+                            schema = @Schema(implementation = String.class))}),
             @ApiResponse(responseCode = "400", description = "Peticion invalida", content = @Content),
             @ApiResponse(responseCode = "404", description = "La ruleta no existe", content = @Content)
     })
     @Parameter(name = "ruletaId", required = true, description = "Identificador unico de ruleta")
 
     @PutMapping("/abrir")
-    public ResponseEntity<Boolean> abrirRuleta(@RequestParam Integer ruletaId) {
+    public ResponseEntity<?> abrirRuleta(@RequestParam Integer ruletaId) {
 
         return new ResponseEntity<>(ruletaDAO.apertura(ruletaId), HttpStatus.ACCEPTED);
     }

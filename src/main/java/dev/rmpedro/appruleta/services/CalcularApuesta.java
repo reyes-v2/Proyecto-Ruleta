@@ -8,7 +8,7 @@ public class CalcularApuesta {
 
     public static Apuesta calcularApuesta(Ruleta ruleta, Apuesta apuesta){
         if (apuesta.getTipoApuesta()== TipoApuesta.COLOR) {
-            if (apuesta.getValorApuesta().equalsIgnoreCase(ruleta.getColorGanador().toString())) {
+            if (apuesta.getValorApuesta().equals(ruleta.getColorGanador().toString())) {
                 apuesta.setEsGanadora(true);
                 apuesta.setPremio(apuesta.getMonto() * 2);
 

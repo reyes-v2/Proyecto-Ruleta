@@ -23,7 +23,7 @@ public class Ruleta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Boolean estaAbierta=false;
+    private Boolean estaAbierta;
     @Column(name = "color_ganador")
     @Enumerated(EnumType.STRING)
     private Color colorGanador;

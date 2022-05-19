@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static dev.rmpedro.appruleta.services.GenerarGanadores.generarColorGanador;
 import static dev.rmpedro.appruleta.services.GenerarGanadores.generarNumeroGanador;
@@ -41,15 +42,10 @@ public class RuletaDAOImpl implements RuletaDAO {
     public Ruleta buscarPorId(Integer id) {
 
         Optional<Ruleta> oRuleta = repository.findById(id);
-        Ruleta ruletaEncontrada;
-        if(oRuleta.isPresent()){
-            ruletaEncontrada=oRuleta.get();
-
-        }
-        else{
+        if(oRuleta.isEmpty())
             throw new RuletaNoExiste("La ruleta con el ID " + id + " no existe.");
-        }
-        return ruletaEncontrada;
+
+        return oRuleta.get();
     }
 
 
@@ -62,11 +58,20 @@ public class RuletaDAOImpl implements RuletaDAO {
     }
 
     @Override
-    public Boolean apertura(Integer id) {
+    public String apertura(Integer id) {
     Ruleta ruleta = buscarPorId(id);
-    ruleta.setEstaAbierta(true);
-    guardar(ruleta);
-    return ruleta.getEstaAbierta();
+    if(ruleta.getEstaAbierta()==null){
+        ruleta.setEstaAbierta(true);
+        guardar(ruleta);
+    }
+    else if(ruleta.getEstaAbierta()){
+        return "La ruleta ya esta abierta";
+    }
+    else{
+        throw new RuletaNoExiste("Esta ruleta ya no acepta mas apuestas");
+    }
+
+    return "La ruleta esta disponible para apuestas";
 
     }
 
@@ -74,7 +79,10 @@ public class RuletaDAOImpl implements RuletaDAO {
     public Apuesta apostar(Integer idRuleta, String valorApuesta, Double monto) {
         Ruleta ruleta = buscarPorId(idRuleta);
         Apuesta nuevaApuesta;
-        if(ruleta.getEstaAbierta()){
+        if(ruleta.getEstaAbierta()==null){
+            throw new RuletaCerradaException("No es posibles apostar a esta ruleta");
+        }
+        else if(ruleta.getEstaAbierta()){
           nuevaApuesta=apuestaDAO.crearApuesta(valorApuesta,monto,ruleta);
 
         }

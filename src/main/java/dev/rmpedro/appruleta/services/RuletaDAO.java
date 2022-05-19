@@ -7,7 +7,7 @@ public interface RuletaDAO{
     void guardar (Ruleta ruleta);
     Ruleta buscarPorId(Integer id);
     Integer crear();
-    Boolean apertura(Integer id);
+    String apertura(Integer id);
     Apuesta apostar(Integer id, String valorApuesta, Double monto);
     void girar(Integer id);
     Iterable<Apuesta> cierre(Integer id);
